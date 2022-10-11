@@ -16,6 +16,11 @@ app.get('/api/notes', (req, res) => {
     res.json(notes);
 });
 
+app.get('*', (req, res) => {
+    const notes = require('./db/notes.json');
+    res.json(notes)
+})
+
 app.post('/api/notes', (req, res) => {
     const notes = require('./db/notes.json');
     const newNote = {
@@ -34,7 +39,9 @@ app.post('/api/notes', (req, res) => {
             })
         }
     })
-} )
+})
+
+app.delete('/api/notes/:id', (req, res))
 
 
 const PORT = process.env.PORT || 5000;
