@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-
+// npm run dev
 const app = express();
 
 // Set static folder 
