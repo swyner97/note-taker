@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const uniqid = require('uniqid');
+const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
 const { reset } = require('nodemon');
 
 const app = express();
@@ -12,42 +13,40 @@ app.get(express.urlencoded({ extended: true }));
 
 // npm run dev
 
+// GET /notes should return the notes.html file.
+app.get('/notes', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/notes.html'))
+})
+
+// GET * should return the index.html file.
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
+
+// GET /api/notes should read the db.json file and return all saved notes as JSON.
 app.get('/api/notes', (req, res) => {
     const notes = require('./db/notes.json');
     res.json(notes);
-});
 
-app.get('/notes', (req,res) => {
-    res.readFile('notes.html')
-    // .then(contents => {
-    //     res.setHeader("Content-Type", "text/html");
-    //     res.writeHead(200);
-    //     res.end(contents);
-    // })
-    // .catch(err => {
-    //     res.writeHead(500);
-    //     res.end(err);
-    //     return;
-    // });
 })
 
 app.post('/api/notes', (req, res) => {
     const notes = require('./db/notes.json');
-    const id = uniqid();
     const { title, text } = req.body;
-    notes.push({ title, text, id });
 
-    fs.writeFile('./db/notes.json', JSON.stringify(notes), (err) => {
-        if (err) {
-            res.status(500).end();
-        } else {
-            res.status(200).json({
-                message: 'Everything went ok!'
-            })
+    if (req.body) {
+        newNote = {
+            title,
+            text,
+            id: uniqid()
         }
-    })
-})
 
+        readAndAppend(newNote, './db/notes.json');
+        res.json(`Note successfully added`);
+    } else {
+        res.errored('Error adding note')
+    }
+})
 
 // app.delete("/api/notes/:id", (req, res) => {
 //     const notes = require("./db/notes.json");
