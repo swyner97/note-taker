@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "express": "^4.18.2",
+    "fs": "^0.0.1-security",
     "node": "^18.10.0",
     "uniqid": "^5.4.0",
     "uuid": "^9.0.0"
