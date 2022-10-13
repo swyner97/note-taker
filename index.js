@@ -43,17 +43,17 @@ app.post('/api/notes', (req, res) => {
     })
 })
 
-app.get('/api/notes/:id', (req, res) => {
-    const notes = require('./db/notes.json');
-    const found = notes.some(idFilter(req));
+// app.get('/api/notes/:id', (req, res) => {
+//     const notes = require('./db/notes.json');
+//     const found = notes.some(idFilter(req));
 
-    if (found) {
-        res.json(notes.filter(idFilter(req)));
-    } else {
-        res.status(400).json({ msg: `No notes with the id of ${req.params.id}` });
-    }
+//     if (found) {
+//         res.json(notes.filter(idFilter(req)));
+//     } else {
+//         res.status(400).json({ msg: `No notes with the id of ${req.params.id}` });
+//     }
 
-});
+// });
 
 
 app.delete('/api/notes/:id', (req, res) => {
