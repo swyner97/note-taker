@@ -2,8 +2,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const uniqid = require('uniqid');
-const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
-const { reset } = require('nodemon');
+const { readAndAppend } = require('./helpers/fsUtils');
+
 
 const app = express();
 
@@ -48,25 +48,6 @@ app.post('/api/notes', (req, res) => {
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'))
 });
-
-// app.delete("/api/notes/:id", (req, res) => {
-//     const notes = require("./db/notes.json");
-
-//     // grab the note by comparing ids
-//     const noteToDelete = notes.find(note => note.id === req.params.id);
-//     console.log(noteToDelete);
-//     if (noteToDelete) {
-//         res.json({ deleted: noteToDelete });
-//     } else {
-//         res.status(400).json({ msg: `No note with the id of ${req.params.id}` });
-//     }
-
-
-//     if (!fs.existsSync(DB_DIR)) {
-//         fs.mkdirSync(DB_DIR);
-//     }
-//     fs.writeFileSync(dbPath, generateJSON(notes))
-// });
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
