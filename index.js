@@ -10,7 +10,7 @@ app.use(express.static('public'));
 app.use(express.json());
 app.get(express.urlencoded({ extended: true }));
 
-app.use('/api/notes', require('./routes/api/notes'))
+app.use('/', require('./routes/api/notes'))
 
 // npm run dev
 
